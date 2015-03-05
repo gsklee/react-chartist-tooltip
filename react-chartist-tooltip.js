@@ -3,15 +3,11 @@ import Chartist from 'chartist';
 
 export default class Chart extends React.Component {
   componentDidMount() {
-    const {type, data, options = {}, responsiveOptions = []} = this.props;
-
-    this.chartist = new Chartist[type](React.findDOMNode(this), data, options, responsiveOptions);
+    this.updateChart(this.props);
   }
 
   componentWillReceiveProps(newProps) {
-    const {data, options = {}} = newProps;
-
-    this.chartist.update(data, options, true);
+    this.updateChart(newProps);
   }
 
   componentWillUnmount() {
@@ -20,6 +16,14 @@ export default class Chart extends React.Component {
 
   render() {
     return <div className = {['ct-chart', this.props.ratio].join(' ').trim()}></div>;
+  }
+
+  updateChart(props) {
+    const {type, data, options = {}, responsiveOptions = []} = props;
+
+    this.chartist ? this.chartist.update(data, options, true) :
+    data.series ? this.chartist = new Chartist[type](React.findDOMNode(this), data, options, responsiveOptions) :
+    null;
   }
 }
 
