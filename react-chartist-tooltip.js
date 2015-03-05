@@ -24,3 +24,10 @@ export default class Chart extends React.Component {
     data.series && (this.chartist = new Chartist[type](React.findDOMNode(this), data, options, responsiveOptions));
   }
 }
+
+Chart.propTypes = {
+  type: React.PropTypes.string.isRequired,
+  data: React.PropTypes.object.isRequired,
+  options: React.PropTypes.object,
+  responsiveOptions: React.PropTypes.array
+};
