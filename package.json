@@ -12,7 +12,10 @@
     "url": "https://github.com/gsklee/react-chartist-tooltip"
   },
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "react": "0.13.0-rc1",
+    "chartist": "^0.7.3"
+  },
   "devDependencies": {},
   "engines": {
     "iojs": ">=1.0.0"
