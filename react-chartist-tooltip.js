@@ -15,7 +15,7 @@ export default class Chart extends React.Component {
   }
 
   render() {
-    return <div className = "ct-chart"></div>;
+    return <div className = {['ct-chart', this.props.ratio].join(' ').trim()}></div>;
   }
 
   updateChart(configs) {
@@ -27,6 +27,7 @@ export default class Chart extends React.Component {
 
 Chart.propTypes = {
   type: React.PropTypes.string.isRequired,
+  ratio: React.PropTypes.string,
   data: React.PropTypes.object.isRequired,
   options: React.PropTypes.object,
   responsiveOptions: React.PropTypes.array
