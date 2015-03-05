@@ -31,8 +31,8 @@ Chart.propTypes = {
   type: React.PropTypes.string.isRequired,
   ratio: React.PropTypes.string,
   data: React.PropTypes.shape({
-    labels: React.PropTypes.array.isRequired,
-    series: React.PropTypes.array.isRequired
+    labels: React.PropTypes.array,
+    series: React.PropTypes.array
   }),
   options: React.PropTypes.object,
   responsiveOptions: React.PropTypes.array
