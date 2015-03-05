@@ -10,6 +10,10 @@ export default class Chart extends React.Component {
     this.updateChart(newProps);
   }
 
+  componentWillUnmount() {
+    this.chartist && this.chartist.detach();
+  }
+
   render() {
     return <div className = "ct-chart"></div>;
   }
@@ -17,6 +21,6 @@ export default class Chart extends React.Component {
   updateChart(configs) {
     const {type, data, options = {}, responsiveOptions = []} = configs;
 
-    data.series && new Chartist[type](React.findDOMNode(this), data, options, responsiveOptions);
+    data.series && (this.chartist = new Chartist[type](React.findDOMNode(this), data, options, responsiveOptions));
   }
 }
