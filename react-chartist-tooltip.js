@@ -26,7 +26,10 @@ export default class Chart extends React.Component {
 Chart.propTypes = {
   type: React.PropTypes.string.isRequired,
   ratio: React.PropTypes.string,
-  data: React.PropTypes.object.isRequired,
+  data: React.PropTypes.shape({
+    labels: React.PropTypes.array.isRequired,
+    series: React.PropTypes.array.isRequired
+  }),
   options: React.PropTypes.object,
   responsiveOptions: React.PropTypes.array
 };
