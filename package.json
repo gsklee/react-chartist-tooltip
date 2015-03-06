@@ -7,7 +7,7 @@
     "setup": "npm cache clean && npm install",
     "build": "gulp build:scripts"
   },
-  "main": "react-chartist-tooltip.js",
+  "main": "react-chartist-tooltip.min.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/gsklee/react-chartist-tooltip"
@@ -16,6 +16,14 @@
   "peerDependencies": {
     "react": "0.13.0-rc1",
     "chartist": "^0.7.3"
+  },
+  "devDependencies": {
+    "babel": "^4.6.6",
+    "gulp": "^3.8.11",
+    "gulp-load-plugins": "^0.8.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-babel": "^4.0.0",
+    "gulp-uglify": "^1.1.0"
   },
   "engines": {
     "iojs": ">=1.0.0"
