@@ -13,12 +13,15 @@
     "url": "https://github.com/gsklee/react-chartist-tooltip"
   },
   "keywords": [],
+  "dependencies": {
+    "classnames": "^1.1.4"
+  },
   "peerDependencies": {
-    "react": "0.13.0-rc1",
+    "react": "0.13.0-rc2",
     "chartist": "^0.7.3"
   },
   "devDependencies": {
-    "babel": "^4.6.6",
+    "babel": "^4.7.1",
     "gulp": "^3.8.11",
     "gulp-load-plugins": "^0.8.1",
     "gulp-rename": "^1.2.0",
