@@ -1,5 +1,6 @@
 import React from 'react';
 import Chartist from 'chartist';
+import classnames from 'classnames';
 
 export default class Chart extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class Chart extends React.Component {
     return (
       <div>
         <div ref = "chart"
-             className = {['ct-chart', this.props.ratio].join(' ').trim()}
+             className = {classnames('ct-chart', this.props.classnames)}
              onMouseOver = {this.onMouseOver}></div>
         <div className = "ct-tooltip">
           <span>{this.state.dataName}</span>
@@ -60,7 +61,10 @@ export default class Chart extends React.Component {
 
 Chart.propTypes = {
   type: React.PropTypes.string.isRequired,
-  ratio: React.PropTypes.string,
+  classnames: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object
+  ]),
   data: React.PropTypes.shape({
     labels: React.PropTypes.array,
     series: React.PropTypes.array
