@@ -1,5 +1,6 @@
 import React from 'react';
 import Chartist from 'chartist';
+import classnames from 'classnames';
 
 export default class Chart extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class Chart extends React.Component {
     return (
       <div>
         <div ref = "chart"
-             className = {['ct-chart', this.props.ratio].join(' ').trim()}
+             className = {classnames('ct-chart', this.props.classnames)}
              onMouseOver = {this.onMouseOver}></div>
         <div className = "ct-tooltip">
           <span>{this.state.dataName}</span>
@@ -40,10 +41,15 @@ export default class Chart extends React.Component {
   }
 
   updateChart(props) {
-    const {type, data, options = {}, responsiveOptions = []} = props;
+    const {type, data, options = {}, responsiveOptions = [], events = {}} = props,
+          create = () => {
+            this.chartist = new Chartist[type](React.findDOMNode(this.refs.chart), data, options, responsiveOptions);
+
+            Object.keys(events).forEach(x => this.chartist.on(x, events[x].bind(this.chartist)));
+          };
 
     this.chartist ? this.chartist.update(data, options, true) :
-    data.series ? this.chartist = new Chartist[type](React.findDOMNode(this.refs.chart), data, options, responsiveOptions) :
+    data.series ? create() :
     null;
   }
 
@@ -60,11 +66,15 @@ export default class Chart extends React.Component {
 
 Chart.propTypes = {
   type: React.PropTypes.string.isRequired,
-  ratio: React.PropTypes.string,
+  classnames: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object
+  ]),
   data: React.PropTypes.shape({
     labels: React.PropTypes.array,
     series: React.PropTypes.array
   }),
   options: React.PropTypes.object,
-  responsiveOptions: React.PropTypes.array
+  responsiveOptions: React.PropTypes.array,
+  events: React.PropTypes.object
 };
