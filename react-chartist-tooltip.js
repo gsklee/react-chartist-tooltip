@@ -34,13 +34,16 @@ export default class Chart extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style = {{
+             position: 'relative'
+           }}>
         <div ref = "chart"
              className = {classnames('ct-chart', this.props.classnames)}
              onMouseOver = {this.onMouseOver}></div>
-        <div className = {['ct-tooltip', this.state.tooltip.classname].join(' ').trim()}
+        <div ref = "tooltip"
+             className = {['ct-tooltip', this.state.tooltip.classname].join(' ').trim()}
              style = {{
-               position: 'fixed',
+               position: 'absolute',
                top: this.state.tooltip.top,
                left: this.state.tooltip.left,
                minWidth: '5rem',
@@ -74,7 +77,9 @@ export default class Chart extends React.Component {
   onMouseOver({target}) {
     let $parent = target.parentNode;
 
-    const rect = target.getBoundingClientRect(),
+    const targetRect = target.getBoundingClientRect(),
+          chartRect = React.findDOMNode(this.refs.chart).getBoundingClientRect(),
+          tooltipRect = React.findDOMNode(this.refs.tooltip).getBoundingClientRect(),
           name = $parent.attributes['ct:series-name'],
           value = target.attributes['ct:value'];
 
@@ -85,8 +90,8 @@ export default class Chart extends React.Component {
                },
                tooltip: {
                  classname: `ct-tooltip-${$parent.classList[1].substr(3)}`,
-                 top: rect.top,
-                 left: rect.left
+                 top: targetRect.top - chartRect.top - tooltipRect.height,
+                 left: targetRect.left - chartRect.left - 1
                }
              });
   }
