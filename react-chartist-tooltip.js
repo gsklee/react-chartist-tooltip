@@ -58,12 +58,15 @@ export default class Chart extends React.Component {
   onMouseOver({target}) {
     let $parent = target.parentNode;
 
-    this.setState({
-      datapoint: {
-        name: $parent.attributes['ct:name'] ? $parent.attributes['ct:name'].value : '',
-        value: target.attributes['ct:value'] ? target.attributes['ct:value'].value : ''
-      }
-    });
+    const name = $parent.attributes['ct:series-name'],
+          value = target.attributes['ct:value'];
+
+    value && this.setState({
+               datapoint: {
+                 name: name ? name.value : '',
+                 value: value.value
+               }
+             });
   }
 }
 
