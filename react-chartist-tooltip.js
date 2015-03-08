@@ -46,16 +46,16 @@ export default class Chart extends React.Component {
                position: 'absolute',
                top: this.state.tooltip.top,
                left: this.state.tooltip.left,
-               minWidth: '5rem',
-               padding: '0.5rem',
+               padding: '0.25rem 1rem',
                border: '1px #fff solid',
                textAlign: 'center',
                fontSize: 12,
+               lineHeight: 1.4,
                color: '#fff',
                opacity: 0.75
              }}>
-          <span className = "ct-tooltip-name">{this.state.datapoint.name}</span>
-          <span className = "ct-tooltip-value">{this.state.datapoint.value}</span>
+          <div className = "ct-tooltip-name">{this.state.datapoint.name}</div>
+          <div className = "ct-tooltip-value">{this.state.datapoint.value}</div>
         </div>
       </div>
     );
