@@ -1,6 +1,6 @@
 {
   "name": "react-chartist-tooltip",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "author": "G. Kay Lee <balancetraveller+github@gmail.com>",
   "scripts": {
@@ -21,7 +21,7 @@
     "chartist": "^0.7.3"
   },
   "devDependencies": {
-    "babel": "^4.7.1",
+    "babel": "^4.7.3",
     "gulp": "^3.8.11",
     "gulp-load-plugins": "^0.8.1",
     "gulp-rename": "^1.2.0",
