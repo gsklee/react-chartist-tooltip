@@ -10,6 +10,10 @@ export default class Chart extends React.Component {
       datapoint: {
         name: '',
         value: '',
+      },
+      tooltip: {
+        top: 0,
+        left: 0
       }
     };
 
@@ -34,7 +38,19 @@ export default class Chart extends React.Component {
         <div ref = "chart"
              className = {classnames('ct-chart', this.props.classnames)}
              onMouseOver = {this.onMouseOver}></div>
-        <div className = "ct-tooltip">
+        <div className = {['ct-tooltip', this.state.tooltip.classname].join(' ').trim()}
+             style = {{
+               position: 'fixed',
+               top: this.state.tooltip.top,
+               left: this.state.tooltip.left,
+               minWidth: '5rem',
+               padding: '0.5rem',
+               border: '1px #fff solid',
+               textAlign: 'center',
+               fontSize: 12,
+               color: '#fff',
+               opacity: 0.75
+             }}>
           <span className = "ct-tooltip-name">{this.state.datapoint.name}</span>
           <span className = "ct-tooltip-value">{this.state.datapoint.value}</span>
         </div>
@@ -58,13 +74,19 @@ export default class Chart extends React.Component {
   onMouseOver({target}) {
     let $parent = target.parentNode;
 
-    const name = $parent.attributes['ct:series-name'],
+    const rect = target.getBoundingClientRect(),
+          name = $parent.attributes['ct:series-name'],
           value = target.attributes['ct:value'];
 
     value && this.setState({
                datapoint: {
                  name: name ? name.value : '',
                  value: value.value
+               },
+               tooltip: {
+                 classname: `ct-tooltip-${$parent.classList[1].substr(3)}`,
+                 top: rect.top,
+                 left: rect.left
                }
              });
   }
