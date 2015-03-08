@@ -7,8 +7,10 @@ export default class Chart extends React.Component {
     super(props);
 
     this.state = {
-      dataName: '',
-      dataValue: ''
+      datapoint: {
+        name: '',
+        value: '',
+      }
     };
 
     this.onMouseOver = this.onMouseOver.bind(this);
@@ -33,8 +35,8 @@ export default class Chart extends React.Component {
              className = {classnames('ct-chart', this.props.classnames)}
              onMouseOver = {this.onMouseOver}></div>
         <div className = "ct-tooltip">
-          <span>{this.state.dataName}</span>
-          <span>{this.state.dataValue}</span>
+          <span className = "ct-tooltip-name">{this.state.datapoint.name}</span>
+          <span className = "ct-tooltip-value">{this.state.datapoint.value}</span>
         </div>
       </div>
     );
@@ -54,12 +56,13 @@ export default class Chart extends React.Component {
   }
 
   onMouseOver({target}) {
-    const dataName = target.parentNode.attributes['ct:name'] ? target.parentNode.attributes['ct:name'].value : '',
-          dataValue = target.attributes['ct:value'] ? target.attributes['ct:value'].value : '';
+    let $parent = target.parentNode;
 
     this.setState({
-      dataName,
-      dataValue
+      datapoint: {
+        name: $parent.attributes['ct:name'] ? $parent.attributes['ct:name'].value : '',
+        value: target.attributes['ct:value'] ? target.attributes['ct:value'].value : ''
+      }
     });
   }
 }
