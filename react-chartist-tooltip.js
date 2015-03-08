@@ -2,6 +2,8 @@ import React from 'react';
 import Chartist from 'chartist';
 import classnames from 'classnames';
 
+const identity = x => x;
+
 export default class Chart extends React.Component {
   constructor(props) {
     super(props);
@@ -33,19 +35,22 @@ export default class Chart extends React.Component {
   }
 
   render() {
+    let props = this.props,
+        state = this.state;
+
     return (
       <div style = {{
              position: 'relative'
            }}>
         <div ref = "chart"
-             className = {classnames('ct-chart', this.props.classnames)}
+             className = {classnames('ct-chart', props.classnames)}
              onMouseOver = {this.onMouseOver}></div>
         <div ref = "tooltip"
-             className = {['ct-tooltip', this.state.tooltip.classname].join(' ').trim()}
+             className = {['ct-tooltip', state.tooltip.classname].join(' ').trim()}
              style = {{
                position: 'absolute',
-               top: this.state.tooltip.top,
-               left: this.state.tooltip.left,
+               top: state.tooltip.top,
+               left: state.tooltip.left,
                padding: '0.25rem 1rem',
                border: '1px #fff solid',
                textAlign: 'center',
@@ -54,15 +59,15 @@ export default class Chart extends React.Component {
                color: '#fff',
                opacity: 0.75
              }}>
-          <div className = "ct-tooltip-name">{this.state.datapoint.name}</div>
-          <div className = "ct-tooltip-value">{this.state.datapoint.value}</div>
+          <div className = "ct-tooltip-name">{(props.tooltip.transform.name || identity)(state.datapoint.name)}</div>
+          <div className = "ct-tooltip-value">{(props.tooltip.transform.value || identity)(state.datapoint.value)}</div>
         </div>
       </div>
     );
   }
 
   updateChart(props) {
-    const {type, data, options = {}, responsiveOptions = [], events = {}} = props,
+    const {type, data, options, responsiveOptions, events} = props,
           create = () => {
             this.chartist = new Chartist[type](React.findDOMNode(this.refs.chart), data, options, responsiveOptions);
 
@@ -109,5 +114,23 @@ Chart.propTypes = {
   }),
   options: React.PropTypes.object,
   responsiveOptions: React.PropTypes.array,
-  events: React.PropTypes.object
+  events: React.PropTypes.object,
+  tooltip: React.PropTypes.shape({
+    transform: React.PropTypes.shape({
+      name: React.PropTypes.func,
+      value: React.PropTypes.func
+    })
+  })
+};
+
+Chart.defaultProps = {
+  options: {},
+  responsiveOptions: [],
+  events: {},
+  tooltip: {
+    transform: {
+      name: identity,
+      value: identity
+    }
+  }
 };
