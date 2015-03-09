@@ -44,6 +44,7 @@ export default class Chart extends React.Component {
            }}>
         <div ref = "chart"
              className = {classnames('ct-chart', props.classnames)}
+             style = {props.style}
              onMouseOver = {this.onMouseOver}></div>
         <div ref = "tooltip"
              className = {['ct-tooltip', state.tooltip.classname].join(' ').trim()}
@@ -108,6 +109,7 @@ Chart.propTypes = {
     React.PropTypes.string,
     React.PropTypes.object
   ]),
+  style: React.PropTypes.object,
   data: React.PropTypes.shape({
     labels: React.PropTypes.array,
     series: React.PropTypes.array
@@ -124,6 +126,7 @@ Chart.propTypes = {
 };
 
 Chart.defaultProps = {
+  style: {},
   options: {},
   responsiveOptions: [],
   events: {},
