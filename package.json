@@ -17,7 +17,7 @@
     "classnames": "^1.1.4"
   },
   "peerDependencies": {
-    "react": "0.13.0-rc2",
+    "react": "^0.13.1",
     "chartist": "^0.7.3"
   },
   "devDependencies": {
