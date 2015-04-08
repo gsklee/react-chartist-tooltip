@@ -37,6 +37,7 @@ export default class Chart extends React.Component {
     }),
     options: React.PropTypes.object,
     responsiveOptions: React.PropTypes.array,
+    callback: React.PropTypes.func,
     events: React.PropTypes.object,
     tooltip: React.PropTypes.shape({
       transform: React.PropTypes.shape({
@@ -104,9 +105,11 @@ export default class Chart extends React.Component {
   }
 
   updateChart(props) {
-    const {type, data, options, responsiveOptions, events} = props,
+    const {type, data, options, responsiveOptions, callback, events} = props,
           create = () => {
             this.chartist = new Chartist[type](React.findDOMNode(this.refs.chart), data, options, responsiveOptions);
+
+            callback && callback.call(this.chartist);
 
             Object.keys(events).forEach(x => this.chartist.on(x, events[x].bind(this.chartist)));
           };
