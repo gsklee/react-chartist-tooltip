@@ -8,19 +8,55 @@ export default class Chart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      datapoint: {
-        name: '',
-        value: '',
-      },
-      tooltip: {
-        top: 0,
-        left: 0
-      }
-    };
-
     this.onMouseOver = this.onMouseOver.bind(this);
   }
+
+  static defaultProps = {
+    style: {},
+    options: {},
+    responsiveOptions: [],
+    events: {},
+    tooltip: {
+      transform: {
+        name: identity,
+        value: identity
+      }
+    }
+  };
+
+  static propTypes = {
+    type: React.PropTypes.string.isRequired,
+    classnames: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.object
+    ]),
+    style: React.PropTypes.object,
+    data: React.PropTypes.shape({
+      labels: React.PropTypes.array,
+      series: React.PropTypes.array
+    }),
+    options: React.PropTypes.object,
+    responsiveOptions: React.PropTypes.array,
+    events: React.PropTypes.object,
+    tooltip: React.PropTypes.shape({
+      transform: React.PropTypes.shape({
+        name: React.PropTypes.func,
+        value: React.PropTypes.func
+      })
+    })
+  };
+
+  state = {
+    datapoint: {
+      name: '',
+      value: '',
+    },
+
+    tooltip: {
+      top: 0,
+      left: 0
+    }
+  };
 
   componentDidMount() {
     this.updateChart(this.props);
@@ -102,38 +138,3 @@ export default class Chart extends React.Component {
              });
   }
 }
-
-Chart.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  classnames: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
-  ]),
-  style: React.PropTypes.object,
-  data: React.PropTypes.shape({
-    labels: React.PropTypes.array,
-    series: React.PropTypes.array
-  }),
-  options: React.PropTypes.object,
-  responsiveOptions: React.PropTypes.array,
-  events: React.PropTypes.object,
-  tooltip: React.PropTypes.shape({
-    transform: React.PropTypes.shape({
-      name: React.PropTypes.func,
-      value: React.PropTypes.func
-    })
-  })
-};
-
-Chart.defaultProps = {
-  style: {},
-  options: {},
-  responsiveOptions: [],
-  events: {},
-  tooltip: {
-    transform: {
-      name: identity,
-      value: identity
-    }
-  }
-};
