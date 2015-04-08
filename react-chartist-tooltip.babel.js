@@ -83,7 +83,7 @@ export default class Chart extends React.Component {
              style = {props.style}
              onMouseOver = {this.onMouseOver}></div>
         <div ref = "tooltip"
-             className = {['ct-tooltip', state.tooltip.classname].join(' ').trim()}
+             className = {classnames('ct-tooltip', state.tooltip.classname)}
              style = {{
                position: 'absolute',
                top: state.tooltip.top,
