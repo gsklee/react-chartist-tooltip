@@ -1,15 +1,14 @@
 import Gulp from 'gulp';
-import $ from 'gulp-load-plugins';
+import GulpLoadPlugins from 'gulp-load-plugins';
 
-$ = $();
+const _ = GulpLoadPlugins();
 
 Gulp.task('build:scripts',
-  () => Gulp.src('react-chartist-tooltip.js')
-            .pipe($.rename('react-chartist-tooltip.min.js'))
-            .pipe($.babel({
-              loose: 'all',
-              experimental: true
+  () => Gulp.src('react-chartist-tooltip.babel.js')
+            .pipe(_.rename('react-chartist-tooltip.js'))
+            .pipe(_.babel({
+              stage: 0,
+              loose: 'all'
             }))
-            //.pipe($.uglify())
             .pipe(Gulp.dest('.'))
 );
