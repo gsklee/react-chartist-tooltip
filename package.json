@@ -4,7 +4,7 @@
   "description": "",
   "author": "G. Kay Lee <balancetraveller+github@gmail.com>",
   "scripts": {
-    "preinstall": "npm cache clean",
+    "setup": "npm cache clean && npm install",
     "build": "gulp build:scripts"
   },
   "main": "react-chartist-tooltip.js",
