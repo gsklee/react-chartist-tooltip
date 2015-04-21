@@ -1,139 +1,198 @@
-import React from 'react';
-import Chartist from 'chartist';
-import classnames from 'classnames';
+'use strict';
 
-const identity = x => x;
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-export default class Chart extends React.Component {
-  constructor(props) {
-    super(props);
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+exports.__esModule = true;
+
+var _React = require('react');
+
+var _React2 = _interopRequireWildcard(_React);
+
+var _Chartist = require('chartist');
+
+var _Chartist2 = _interopRequireWildcard(_Chartist);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireWildcard(_classnames);
+
+var identity = function identity(x) {
+  return x;
+};
+
+var Chart = (function (_React$Component) {
+  function Chart(props) {
+    _classCallCheck(this, Chart);
+
+    _React$Component.call(this, props);
 
     this.state = {
       datapoint: {
         name: '',
-        value: '',
-      },
+        value: '' },
+
       tooltip: {
         top: 0,
         left: 0
       }
     };
-
     this.onMouseOver = this.onMouseOver.bind(this);
   }
 
-  componentDidMount() {
+  _inherits(Chart, _React$Component);
+
+  Chart.prototype.componentDidMount = function componentDidMount() {
     this.updateChart(this.props);
-  }
+  };
 
-  componentWillReceiveProps(newProps) {
+  Chart.prototype.componentWillReceiveProps = function componentWillReceiveProps(newProps) {
     this.updateChart(newProps);
-  }
+  };
 
-  componentWillUnmount() {
+  Chart.prototype.componentWillUnmount = function componentWillUnmount() {
     this.chartist.detach();
-  }
+  };
 
-  render() {
-    let props = this.props,
+  Chart.prototype.render = function render() {
+    var props = this.props,
         state = this.state;
 
-    return (
-      <div style = {{
-             position: 'relative'
-           }}>
-        <div ref = "chart"
-             className = {classnames('ct-chart', props.classnames)}
-             style = {props.style}
-             onMouseOver = {this.onMouseOver}></div>
-        <div ref = "tooltip"
-             className = {['ct-tooltip', state.tooltip.classname].join(' ').trim()}
-             style = {{
-               position: 'absolute',
-               top: state.tooltip.top,
-               left: state.tooltip.left,
-               padding: '0.25rem 1rem',
-               border: '1px #fff solid',
-               textAlign: 'center',
-               fontSize: 12,
-               lineHeight: 1.4,
-               color: '#fff',
-               opacity: 0.75
-             }}>
-          <div className = "ct-tooltip-name">{(props.tooltip.transform.name || identity)(state.datapoint.name)}</div>
-          <div className = "ct-tooltip-value">{(props.tooltip.transform.value || identity)(state.datapoint.value)}</div>
-        </div>
-      </div>
+    return _React2['default'].createElement(
+      'div',
+      { style: {
+          position: 'relative'
+        } },
+      _React2['default'].createElement('div', { ref: 'chart',
+        className: _classnames2['default']('ct-chart', props.classnames),
+        style: props.style,
+        onMouseOver: this.onMouseOver }),
+      _React2['default'].createElement(
+        'div',
+        { ref: 'tooltip',
+          className: _classnames2['default']('ct-tooltip', state.tooltip.classname),
+          style: {
+            position: 'absolute',
+            top: state.tooltip.top,
+            left: state.tooltip.left,
+            padding: '0.25rem 1rem',
+            border: '1px #fff solid',
+            textAlign: 'center',
+            fontSize: 12,
+            lineHeight: 1.4,
+            color: '#fff',
+            opacity: 0.75
+          } },
+        _React2['default'].createElement(
+          'div',
+          { className: 'ct-tooltip-name' },
+          (props.tooltip.transform.name || identity)(state.datapoint.name)
+        ),
+        _React2['default'].createElement(
+          'div',
+          { className: 'ct-tooltip-value' },
+          (props.tooltip.transform.value || identity)(state.datapoint.value)
+        )
+      )
     );
-  }
+  };
 
-  updateChart(props) {
-    const {type, data, options, responsiveOptions, events} = props,
-          create = () => {
-            this.chartist = new Chartist[type](React.findDOMNode(this.refs.chart), data, options, responsiveOptions);
+  Chart.prototype.updateChart = function updateChart(props) {
+    var _this = this;
 
-            Object.keys(events).forEach(x => this.chartist.on(x, events[x].bind(this.chartist)));
-          };
+    var type = props.type;
+    var data = props.data;
+    var options = props.options;
+    var responsiveOptions = props.responsiveOptions;
+    var callback = props.callback;
+    var events = props.events;
+    var create = function create() {
+      _this.chartist = new _Chartist2['default'][type](_React2['default'].findDOMNode(_this.refs.chart), data, options, responsiveOptions);
 
-    this.chartist ? this.chartist.update(data, options, true) :
-    data.series ? create() :
-    null;
-  }
+      callback && callback.call(_this.chartist);
 
-  onMouseOver({target}) {
-    let $parent = target.parentNode;
+      Object.keys(events).forEach(function (x) {
+        return _this.chartist.on(x, events[x].bind(_this.chartist));
+      });
+    };
 
-    const targetRect = target.getBoundingClientRect(),
-          chartRect = React.findDOMNode(this.refs.chart).getBoundingClientRect(),
-          tooltipRect = React.findDOMNode(this.refs.tooltip).getBoundingClientRect(),
-          name = $parent.attributes['ct:series-name'],
-          value = target.attributes['ct:value'];
+    this.chartist ? this.chartist.update(data, options, true) : data.series ? create() : null;
+  };
+
+  Chart.prototype.onMouseOver = function onMouseOver(_ref) {
+    var target = _ref.target;
+
+    var $parent = target.parentNode;
+
+    var targetRect = target.getBoundingClientRect(),
+        chartRect = _React2['default'].findDOMNode(this.refs.chart).getBoundingClientRect(),
+        tooltipRect = _React2['default'].findDOMNode(this.refs.tooltip).getBoundingClientRect(),
+        name = $parent.attributes['ct:series-name'],
+        value = target.attributes['ct:value'];
 
     value && this.setState({
-               datapoint: {
-                 name: name ? name.value : '',
-                 value: value.value
-               },
-               tooltip: {
-                 classname: `ct-tooltip-${$parent.classList[1].substr(3)}`,
-                 top: targetRect.top - chartRect.top - tooltipRect.height,
-                 left: targetRect.left - chartRect.left - 1
-               }
-             });
-  }
-}
+      datapoint: {
+        name: name ? name.value : '',
+        value: value.value
+      },
+      tooltip: {
+        classname: 'ct-tooltip-' + $parent.classList[1].substr(3),
+        top: targetRect.top - chartRect.top - tooltipRect.height,
+        left: targetRect.left - chartRect.left - 1
+      }
+    });
+  };
 
-Chart.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  classnames: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
-  ]),
-  style: React.PropTypes.object,
-  data: React.PropTypes.shape({
-    labels: React.PropTypes.array,
-    series: React.PropTypes.array
-  }),
-  options: React.PropTypes.object,
-  responsiveOptions: React.PropTypes.array,
-  events: React.PropTypes.object,
-  tooltip: React.PropTypes.shape({
-    transform: React.PropTypes.shape({
-      name: React.PropTypes.func,
-      value: React.PropTypes.func
-    })
-  })
-};
+  _createClass(Chart, [{
+    key: 'state',
+    value: undefined,
+    enumerable: true
+  }], [{
+    key: 'defaultProps',
+    value: {
+      style: {},
+      options: {},
+      responsiveOptions: [],
+      events: {},
+      tooltip: {
+        transform: {
+          name: identity,
+          value: identity
+        }
+      }
+    },
+    enumerable: true
+  }, {
+    key: 'propTypes',
+    value: {
+      type: _React2['default'].PropTypes.string.isRequired,
+      classnames: _React2['default'].PropTypes.oneOfType([_React2['default'].PropTypes.string, _React2['default'].PropTypes.object]),
+      style: _React2['default'].PropTypes.object,
+      data: _React2['default'].PropTypes.shape({
+        labels: _React2['default'].PropTypes.array,
+        series: _React2['default'].PropTypes.array
+      }),
+      options: _React2['default'].PropTypes.object,
+      responsiveOptions: _React2['default'].PropTypes.array,
+      callback: _React2['default'].PropTypes.func,
+      events: _React2['default'].PropTypes.object,
+      tooltip: _React2['default'].PropTypes.shape({
+        transform: _React2['default'].PropTypes.shape({
+          name: _React2['default'].PropTypes.func,
+          value: _React2['default'].PropTypes.func
+        })
+      })
+    },
+    enumerable: true
+  }]);
 
-Chart.defaultProps = {
-  style: {},
-  options: {},
-  responsiveOptions: [],
-  events: {},
-  tooltip: {
-    transform: {
-      name: identity,
-      value: identity
-    }
-  }
-};
+  return Chart;
+})(_React2['default'].Component);
+
+exports['default'] = Chart;
+module.exports = exports['default'];
